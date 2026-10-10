@@ -1,0 +1,17 @@
+.env*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+staticfiles/
+media/
+ai_model/models/*
+!ai_model/models/.gitkeep
+.idea/
+.vscode/
+*.egg-info/
+Thumbs.db
+/work/

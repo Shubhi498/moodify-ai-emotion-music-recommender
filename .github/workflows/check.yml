@@ -1,0 +1,51 @@
+name: Django checks
+on:
+  push:
+  pull_request:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: moodify_ai
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python manage.py check
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-a-secret
+          MYSQL_DATABASE: moodify_ai
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+      - run: python manage.py migrate --noinput
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-a-secret
+          MYSQL_DATABASE: moodify_ai
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+      - run: python manage.py test
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-a-secret
+          DJANGO_DEBUG: 'True'
+          MYSQL_DATABASE: moodify_ai
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
