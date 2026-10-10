@@ -10,7 +10,7 @@ The `Procfile` collects static assets and starts the Django application with Gun
 
 Use Railway's deployment documentation to link a GitHub repository, create the Python service, provision MySQL, and configure environment variables. The service must have enough memory for TensorFlow and the actual CNN weights. Store the model file in a persistent location or include it as a reviewed deployment artifact; the source repository intentionally excludes trained weights and FER-2013 data. Set up HTTPS before testing browser camera access.
 
-Railway's current pricing page describes a usage-based Hobby plan with a $5/month minimum charge, with additional usage charged separately. Review current pricing before creating resources; this repository does not provision paid hosting. GitHub login, Railway account setup, model weights, a running MySQL service, and Spotify developer credentials are still needed to complete and verify a live deployment.
+The Django/Gunicorn service and Railway MySQL service are deployed at https://moodify-web-production.up.railway.app/. Railway reported a successful deployment and a successful 2xx health check at `/api/health/`. The repository is public at https://github.com/Shubhi498/moodify-ai-emotion-music-recommender. No paid plan or purchase was made. Railway documents the Free plan as $1/month resource credit and 0.5 GB RAM per service, and a one-time $5 trial credit; services stop when trial credits are exhausted. Check [current plan details](https://docs.railway.com/pricing/plans) and [trial terms](https://docs.railway.com/pricing/free-trial) for current limits. This environment does not include trained CNN weights or Spotify credentials, so real facial predictions and Spotify catalog results still require these to be added privately. No image or credentials are committed.
 
 ## Release checklist
 
@@ -22,4 +22,4 @@ Railway's current pricing page describes a usage-based Hobby plan with a $5/mont
 6. Set Spotify's exact deployed callback URL and `SPOTIFY_REDIRECT_URI` to match.
 7. Verify the health endpoint, login, manual mood search, camera permission-denied path, face/no-face inference, Spotify search, and mobile layout using the deployed URL.
 
-Public GitHub publication and live deployment still require the user's GitHub and hosting account authorization. Do not commit environment files or model weights.
+The published site and health endpoint are above. The Railway health check was verified; opening the public page in an independent fresh browser session was blocked by this environment, so no visual smoke-test claim is made. Do not commit environment files, model weights, or credentials.
