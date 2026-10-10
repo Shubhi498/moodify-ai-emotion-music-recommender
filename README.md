@@ -75,7 +75,7 @@ python manage.py migrate
 python manage.py test
 ```
 
-The suite covers image validation and no-face handling, preprocessing labels, low-confidence responses, health and emotion API validation, Spotify errors, authentication, favorite create/delete, and mood-history deletion. No local test result is claimed until these commands have been run successfully in an environment with the dependencies and MySQL available.
+The suite covers image validation and no-face handling, preprocessing labels, low-confidence responses, health and emotion API validation, Spotify errors, authentication, favorite create/delete, and mood-history deletion. Local checks actually run before deployment: `python manage.py check` passed and 7 emotion-focused tests passed. The full Django test suite could not run locally because no MySQL test database was available. Railway completed the production migrations, and its `/api/health/` probe returned 2xx.
 
 ## Privacy
 
@@ -83,7 +83,7 @@ The camera is opt-in. A single captured frame is sent to the Django server for i
 
 ## Deployment status and limitations
 
-This source tree includes a Gunicorn production start command, approved as the WSGI server for deployment. It has not been published to GitHub or deployed. Production still requires MySQL hosting, HTTPS, actual CNN weights, Spotify credentials, and GitHub/hosting account access. Railway is documented as a candidate host; review its usage-based pricing (currently a $5/month Hobby minimum) before provisioning it. See [docs/deployment.md](docs/deployment.md). Spotify Development Mode may limit app owners and allowlisted users, and preview/full playback availability is not guaranteed.
+The source is published at https://github.com/Shubhi498/moodify-ai-emotion-music-recommender and the Django/Gunicorn application with MySQL is deployed on Railway. Website: https://moodify-web-production.up.railway.app/; health check: https://moodify-web-production.up.railway.app/api/health/. Railway reported a successful deployment and a 2xx health-check response. The account is using its trial/free allowance; no paid plan or purchase was selected. Railway currently describes Free as including $1/month resource credit and 0.5 GB RAM per service, and the trial as a one-time $5 credit; workloads stop when trial credits run out. Check current [Railway plan details](https://docs.railway.com/pricing/plans) and [trial terms](https://docs.railway.com/pricing/free-trial). See [docs/deployment.md](docs/deployment.md). Actual CNN weights and Spotify developer credentials are not configured, so facial inference and live Spotify search are unavailable until supplied in Railway's private environment settings. Spotify Development Mode may limit app owners and allowlisted users, and preview/full playback availability is not guaranteed.
 
 ## License
 
